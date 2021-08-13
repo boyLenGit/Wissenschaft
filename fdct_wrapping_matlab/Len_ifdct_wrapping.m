@@ -1,4 +1,4 @@
-function restored_RawData = Len_ifdct_wrapping(segy_data, i_sigma, i_finest, i_nbscales, i_nbangles_coarse, i_nsigmas_coarse, i_nsigmas_fine, i_nshifts, i_nell1, i_neighb_weight, i_tuning_neighb)
+function restored_RawData = Len_ifdct_wrapping(segy_data, len_param)
 disp('fdct_wrapping_demo_denoise_enhanced.m - Image denoising using Curvelets');
 disp('This is an extension of the file fdct_wrapping_demo_denoise.m')
 disp('We try different tricks to obtain better image denoising: (1) curvelets');
@@ -6,21 +6,22 @@ disp('at the finest scale, (2) complex block thresholding, (3) cycle spinning,')
 disp('(4) ell-1 iterations. The user can fine-tune some parameters, see the');
 disp('beginning of the code.')
 disp('By Laurent Demanet, 2005');
+disp('boyeln');
 
 RawData = segy_data; % 读取数据
 [dim_input_1, ~]=size(RawData); % dim_input_1输入数据的维度;
 
 % Tuning parameters
-sigma = i_sigma;                        % 噪声方差为10%。？？？生成高斯噪声为什么要用
-finest = i_finest;                      % 1: curvelets at finest scale, 2: wavelets at finest scale
-nbscales = i_nbscales;                  %
-nbangles_coarse = i_nbangles_coarse;    %
-nsigmas_coarse = i_nsigmas_coarse;      % 阈值与sigmas_coarse*sigma在所有尺度(最细尺度除外)成正比 threshold proportional to nsigmas_coarse*sigma at all scales except finest
-nsigmas_fine = i_nsigmas_fine;          % 在最细尺度上与sigma成比例的阈值 threshold proportional to nsigmas_fine*sigma at finest scale
-nshifts = i_nshifts;                    % 在旋转周期中考虑的平移数(每个维度) number of translations (per dimension) considered in the cycle-spinning
-nell1 = i_nell1;                        % ell-1迭代次数 number of ell-1 iterations
-neighb_weight = i_neighb_weight;        % 对于群阈值，赋予相邻曲波的权值 for group thresholding, weight assigned to neighboring curvelets
-tuning_neighb = i_tuning_neighb;        % 对于群阈值，用于重正化系数加权和的平方的参数 for group thresholding, parameter used to renormalize the weighted sum of coefficients squared
+sigma = len_param(1);                % 噪声方差为10%。？？？生成高斯噪声为什么要用
+finest = len_param(2);               % 1: curvelets at finest scale, 2: wavelets at finest scale
+nbscales = len_param(3);             %
+nbangles_coarse = len_param(4);      %
+nsigmas_coarse = len_param(5);       % 阈值与sigmas_coarse*sigma在所有尺度(最细尺度除外)成正比 threshold proportional to nsigmas_coarse*sigma at all scales except finest
+nsigmas_fine = len_param(6);         % 在最细尺度上与sigma成比例的阈值 threshold proportional to nsigmas_fine*sigma at finest scale
+nshifts = len_param(7);              % 在旋转周期中考虑的平移数(每个维度) number of translations (per dimension) considered in the cycle-spinning
+nell1 = len_param(8);                % ell-1迭代次数 number of ell-1 iterations
+neighb_weight = len_param(9);        % 对于群阈值，赋予相邻曲波的权值 for group thresholding, weight assigned to neighboring curvelets
+tuning_neighb = len_param(10);       % 对于群阈值，用于重正化系数加权和的平方的参数 for group thresholding, parameter used to renormalize the weighted sum of coefficients squared
 % Don't forget that you can choose between diagonal real, diagonal complex, and block complex thersholding by uncommenting portions of the code
 % 不要忘记，您可以通过取消代码部分的注释，在对角线真实值、对角线复杂值和块复杂值之间进行选择
 
