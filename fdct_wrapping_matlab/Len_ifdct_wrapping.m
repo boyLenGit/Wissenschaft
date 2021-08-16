@@ -6,7 +6,6 @@ disp('at the finest scale, (2) complex block thresholding, (3) cycle spinning,')
 disp('(4) ell-1 iterations. The user can fine-tune some parameters, see the');
 disp('beginning of the code.')
 disp('By Laurent Demanet, 2005');
-disp('boyeln');
 
 RawData = segy_data; % 读取数据
 [dim_input_1, ~]=size(RawData); % dim_input_1输入数据的维度;
