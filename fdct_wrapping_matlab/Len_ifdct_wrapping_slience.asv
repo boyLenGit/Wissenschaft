@@ -1,11 +1,5 @@
-function restored_RawData = Len_ifdct_wrapping(segy_data, len_param)
-disp('fdct_wrapping_demo_denoise_enhanced.m - Image denoising using Curvelets');
-disp('This is an extension of the file fdct_wrapping_demo_denoise.m')
-disp('We try different tricks to obtain better image denoising: (1) curvelets');
-disp('at the finest scale, (2) complex block thresholding, (3) cycle spinning,');
-disp('(4) ell-1 iterations. The user can fine-tune some parameters, see the');
-disp('beginning of the code.')
-disp('By Laurent Demanet, 2005');
+function restored_RawData = Len_ifdct_wrapping_slience(segy_data, len_param)
+disp('LenCurve Matlab launched.');
 
 RawData = segy_data; % 读取数据
 [dim_input_1, ~]=size(RawData); % dim_input_1输入数据的维度;
@@ -112,10 +106,8 @@ for xshift = 1:nshifts
         % L1 iterations
         
         for nupdate = 1:nell1
-            nupdate
-            disp(['Direct transform, within ell-1 iteration, shift nr.',num2str(n),' ...']);
+
             D = fdct_wrapping(temp_restored,0,finest,nbscales,nbangles_coarse);
-            disp('Thresholding ...');
             thresh = nsigmas_coarse * sigma;
             for j = 1:length(C)
                 if j == length(C), thresh = nsigmas_fine * sigma; end
@@ -163,7 +155,6 @@ for xshift = 1:nshifts
                     testcjl = testcjl ./ sqrt(1+4*neighb_weight*tuning_neighb);
                     moddjl = (modcjl - moddjl) .* (testcjl > thresh_jl);
                     D{j}{l} = argdjl .* moddjl;
-                    
                 end
             end
             disp('Inverse transform ...')
@@ -171,23 +162,13 @@ for xshift = 1:nshifts
             max(max(abs(temp_update)))
             temp_restored = temp_restored + temp_update;
         end
-        
         temp_restored = circshift(temp_restored,[-xshift, -yshift]);
         restored_RawData = (n-1)/n*restored_RawData + 1/n*temp_restored;
-        
     end
 end
 
-MSE = sum(sum((RawData-restored_RawData).^2))/dim_input_1^2;
-PSNR = 20*log10(255/sqrt(MSE));
-disp(['PSNR = ',num2str(PSNR)]);
-disp(['Time elapsed = ',num2str(toc)]);
-
-% figure(1); clf; imagesc(RawData); colormap gray; axis('image');
-% title('Original Image')
-% figure(2); clf; imagesc(noisy_RawData); colormap gray; axis('image');
-% title('Noisy Image')
-% figure(3); clf; imagesc(restored_RawData); colormap gray; axis('image');
-% title('Restored image');
-
+% MSE = sum(sum((RawData-restored_RawData).^2))/dim_input_1^2;
+% PSNR = 20*log10(255/sqrt(MSE));
+% disp(['PSNR = ',num2str(PSNR)]);
+% disp(['Time elapsed = ',num2str(toc)]);
 end
