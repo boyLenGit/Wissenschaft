@@ -158,5 +158,5 @@ end
 % PSNR = 20*log10(255/sqrt(MSE));
 % disp(['PSNR = ',num2str(PSNR)]);
 % disp(['Time elapsed = ',num2str(toc)]);
-% disp('LenCurve Matlab ended.');
+% disp('LenCurve Matlab ended .');
 end
