@@ -1,5 +1,6 @@
 function restored_RawData = Len_ifdct_wrapping_slience(segy_data, len_param)
 % disp('LenCurve Matlab launched.');
+% 
 
 RawData = segy_data; % 读取数据
 [dim_input_1, ~]=size(RawData); % dim_input_1输入数据的维度;
