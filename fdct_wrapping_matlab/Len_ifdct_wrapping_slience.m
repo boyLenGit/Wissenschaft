@@ -146,7 +146,7 @@ for xshift = 1:nshifts
                 end
             end
             temp_update = real(ifdct_wrapping(D,0,dim_input_1,dim_input_1));
-            max(max(abs(temp_update)))
+            max(max(abs(temp_update)));
             temp_restored = temp_restored + temp_update;
         end
         temp_restored = circshift(temp_restored,[-xshift, -yshift]);
