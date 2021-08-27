@@ -1,4 +1,4 @@
-function [SX,SY,FX,FY,NX,NY] = fdct_wrapping_param(C)
+function [SX,SY,FX,FY,NX,NY] = fdct_wrapping_param(C,M,N)
 
 % fdct_wrapping_param - Gives the phase space location of each curvelet
 %
