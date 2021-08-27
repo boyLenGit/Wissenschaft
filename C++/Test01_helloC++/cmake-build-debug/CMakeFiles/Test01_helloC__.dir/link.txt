@@ -1,0 +1,3 @@
+"D:\Apps\CLion 2021.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\Test01_helloC__.dir/objects.a
+D:\Apps\mingw64\bin\ar.exe cr CMakeFiles\Test01_helloC__.dir/objects.a @CMakeFiles\Test01_helloC__.dir\objects1.rsp
+D:\Apps\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\Test01_helloC__.dir/objects.a -Wl,--no-whole-archive -o Test01_helloC__.exe -Wl,--out-implib,libTest01_helloC__.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Test01_helloC__.dir\linklibs.rsp
