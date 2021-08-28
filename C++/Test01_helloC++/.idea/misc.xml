@@ -5,6 +5,7 @@
     <sourceRoots>
       <file path="$PROJECT_DIR$/LenBridge" />
       <file path="$PROJECT_DIR$/LenTest" />
+      <file path="$PROJECT_DIR$/LenTransplant" />
     </sourceRoots>
   </component>
 </project>
