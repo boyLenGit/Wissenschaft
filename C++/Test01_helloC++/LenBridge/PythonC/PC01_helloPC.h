@@ -3,11 +3,11 @@
 
 #include <string>
 
-class word
+class Len_fdct_usfft_denoise
         {
         public:
-            word(std::string content);
-            virtual ~word();
+            Len_fdct_usfft_denoise(std::string content);
+            virtual ~Len_fdct_usfft_denoise();
 
             virtual void updateWord(std::string new_content);
             std::string getWord(void);

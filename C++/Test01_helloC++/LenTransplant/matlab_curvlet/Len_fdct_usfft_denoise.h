@@ -27,6 +27,10 @@ class Len_fdct_usfft_denoise
 
             const std::vector<double> LenTest_vector_return_vector(const std::vector<double>& data1);
 
+            std::vector<double> LenTest_vector_return_vector_noconst(const std::vector<double>& data1);
+
+            const std::vector< std::vector<double> > LenTest_fdct_usfft_denoise_v1(const std::vector< std::vector<double> >& data1);
+
         private:
             std::string m_content;
         };

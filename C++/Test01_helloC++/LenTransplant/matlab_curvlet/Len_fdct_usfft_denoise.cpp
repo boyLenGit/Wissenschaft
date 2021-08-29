@@ -1,4 +1,4 @@
-#include "word.h"
+#include "Len_fdct_usfft_denoise.h"
 #include "vector"
 // CTRL+ALT+L  格式化代码
 // CTRL+ALT+I  自动缩进    （我主要是找这个功能，其他的没有试过）
@@ -42,5 +42,13 @@ std::list<double> Len_fdct_usfft_denoise::LenTest_list_return_list(std::list<dou
 }
 
 const std::vector<double> Len_fdct_usfft_denoise::LenTest_vector_return_vector(const std::vector<double> &data1) {
+    return data1;
+}
+
+std::vector<double> Len_fdct_usfft_denoise::LenTest_vector_return_vector_noconst(const std::vector<double> &data1) {
+    return data1;
+}
+
+const std::vector< std::vector<double> > Len_fdct_usfft_denoise::LenTest_fdct_usfft_denoise_v1(const std::vector< std::vector<double> > &data1) {
     return data1;
 }

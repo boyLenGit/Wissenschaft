@@ -12,5 +12,5 @@ namespace std {
 
 %include "std_string.i"
 %include "std_iostream.i"
-%include "word.h"
+%include "Len_fdct_usfft_denoise.h"
 %include "std_list.i"

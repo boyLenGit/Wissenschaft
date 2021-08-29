@@ -38,6 +38,7 @@ end
 % Take curvelet transform
 disp(' ');
 disp('Take curvelet transform: fdct_usfft');
+disp(size(noisy_img))
 tic; C = fdct_usfft(noisy_img,is_real); toc;
 Ct = C;
 
