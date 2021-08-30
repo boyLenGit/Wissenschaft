@@ -1,9 +1,16 @@
+// boyLen C++
 #include "Len_fdct_usfft_denoise.h"
 #include "vector"
 #include "fdct_usfft.hpp"
-#include "mexaux.hpp"
+#include "nummat.hpp"
+#include "complex"
+
 // CTRL+ALT+L  格式化代码
 // CTRL+ALT+I  自动缩进    （我主要是找这个功能，其他的没有试过）
+
+
+typedef std::complex<double> cpx;
+typedef fdct_usfft_ns::NumMat<cpx> CpxNumMat1;
 
 
 Len_fdct_usfft_denoise::Len_fdct_usfft_denoise(std::string content) : m_content(content) {
@@ -56,15 +63,46 @@ const std::vector< std::vector<double> > Len_fdct_usfft_denoise::LenTest_fdct_us
 }
 
 const std::vector< std::vector<double> > Len_fdct_usfft_denoise::LenTest_fdct_usfft_denoise_v2(int N1, int N2, int nbscales, int nbangles_coarse, int allcurvelets, const std::vector< std::vector<double> > &X1) {
-
-    fdct_usfft_ns::CpxNumMat MatX1;
-    LenTransform_Pylist_2_CpxNumMat();
-    std::vector< std::vector<CpxNumMat> > X1_return;
+    CpxNumMat1 MatX1;
+    Len_fdct_usfft_denoise::LenTransform_Pylist_2_CpxNumMat_beta(X1, MatX1);
+    std::vector< std::vector<CpxNumMat1> > X1_return;
     fdct_usfft_ns::fdct_usfft(N1, N2, nbscales, nbangles_coarse, allcurvelets, MatX1, X1_return);
     return X1_return;
 }
 
-inline void LenTransform_Pylist_2_CpxNumMat(const mxArray *&md, CpxNumMat &cd){
+void Len_fdct_usfft_denoise::LenTransform_Pylist_2_CpxNumMat(std::vector< std::vector<double> > *&md, CpxNumMat1 &cd){
     int m = md.size(); //矩阵的行
     int n = md[0].size(); //矩阵的列
+}
+
+
+void Len_fdct_usfft_denoise::LenTransform_Pylist_2_CpxNumMat_beta(std::vector< std::vector<double> > *&md, CpxNumMat1 &cd) {
+    int m = md.size(); //矩阵的行
+    int n = md[0].size(); //矩阵的列
+    double *xr = md;
+    double *xi = md;
+    cd.resize(m, n);
+    if (xr != NULL && xi != NULL) {
+        int cnt = 0;
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < m; i++) {
+                cd(i, j) = cpx(xr[cnt], xi[cnt]);
+                cnt++;
+            }
+    } else if (xr != NULL && xi == NULL) {
+        int cnt = 0;
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < m; i++) {
+                cd(i, j) = cpx(xr[cnt], 0);
+                cnt++;
+            }
+    } else if (xr == NULL && xi != NULL) {
+        int cnt = 0;
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < m; i++) {
+                cd(i, j) = cpx(0, xi[cnt]);
+                cnt++;
+            }
+    }
+    return;
 }

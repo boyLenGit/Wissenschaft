@@ -133,8 +133,7 @@ FDCT_USFFT_NS_BEGIN_NAMESPACE
     inline void mex2cpp(const mxArray *&md, CpxNumMat &cd) {
         int m = mxGetM(md);
         int n = mxGetN(md);
-        double *x
-        r = mxGetPr(md);
+        double *xr = mxGetPr(md);
         double *xi = mxGetPi(md);
         cd.resize(m, n);
         if (xr != NULL && xi != NULL) {

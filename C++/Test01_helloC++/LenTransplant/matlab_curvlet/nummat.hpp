@@ -70,6 +70,8 @@ template <class F> inline istream& operator>>(istream& is, NumMat<F>& mat)
 //OUTPUT
 template <class F> inline ostream& operator<<(ostream& os, const NumMat<F>& mat)
 {
+//boylen changed
+  using namespace std;
   os<<mat.m()<<" "<<mat.n()<<endl;
   for(int i=0; i<mat.m(); i++) {
 	 for(int j=0; j<mat.n(); j++)

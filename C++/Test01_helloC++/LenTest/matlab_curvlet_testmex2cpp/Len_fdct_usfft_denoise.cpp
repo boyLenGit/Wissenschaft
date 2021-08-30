@@ -2,6 +2,8 @@
 #include "vector"
 #include "fdct_usfft.hpp"
 #include "mexaux.hpp"
+#include "../../LenTransplant/matlab_curvlet/Len_fdct_usfft_denoise.h"
+
 // CTRL+ALT+L  格式化代码
 // CTRL+ALT+I  自动缩进    （我主要是找这个功能，其他的没有试过）
 
@@ -63,6 +65,7 @@ const std::vector< std::vector<double> > Len_fdct_usfft_denoise::LenTest_fdct_us
     fdct_usfft_ns::fdct_usfft(N1, N2, nbscales, nbangles_coarse, allcurvelets, MatX1, X1_return);
     return X1_return;
 }
+
 
 inline void LenTransform_Pylist_2_CpxNumMat(const mxArray *&md, CpxNumMat &cd){
     int m = md.size(); //矩阵的行

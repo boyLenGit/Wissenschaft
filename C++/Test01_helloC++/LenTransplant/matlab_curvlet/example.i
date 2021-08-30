@@ -9,7 +9,8 @@
 #include "offvec.hpp"
 #include "offmat.hpp"
 #include "fdct_usfft.hpp"
-#include "mexaux.hpp"
+#include "nummat.hpp"
+#include "complex"
 %}
 
 %include "std_vector.i"
