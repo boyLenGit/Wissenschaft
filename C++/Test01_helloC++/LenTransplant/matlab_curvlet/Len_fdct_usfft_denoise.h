@@ -31,6 +31,8 @@ class Len_fdct_usfft_denoise
 
             const std::vector< std::vector<double> > LenTest_fdct_usfft_denoise_v1(const std::vector< std::vector<double> >& data1);
 
+            const std::vector< std::vector<double> > LenTest_fdct_usfft_denoise_v2(int N1, int N2, int nbscales, int nbangles_coarse, int allcurvelets, const std::vector< std::vector<double> > &X1);
+
         private:
             std::string m_content;
         };

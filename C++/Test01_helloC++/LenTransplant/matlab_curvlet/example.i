@@ -3,6 +3,13 @@
 
 %{
 #include "Len_fdct_usfft_denoise.h"
+#include "fdct_usfft_inc.hpp"
+#include "numvec.hpp"
+#include "nummat.hpp"
+#include "offvec.hpp"
+#include "offmat.hpp"
+#include "fdct_usfft.hpp"
+#include "mexaux.hpp"
 %}
 
 %include "std_vector.i"

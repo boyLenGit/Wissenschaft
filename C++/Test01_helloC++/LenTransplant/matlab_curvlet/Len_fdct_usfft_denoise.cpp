@@ -1,5 +1,7 @@
 #include "Len_fdct_usfft_denoise.h"
 #include "vector"
+#include "fdct_usfft.hpp"
+#include "mexaux.hpp"
 // CTRL+ALT+L  格式化代码
 // CTRL+ALT+I  自动缩进    （我主要是找这个功能，其他的没有试过）
 
@@ -51,4 +53,18 @@ std::vector<double> Len_fdct_usfft_denoise::LenTest_vector_return_vector_noconst
 
 const std::vector< std::vector<double> > Len_fdct_usfft_denoise::LenTest_fdct_usfft_denoise_v1(const std::vector< std::vector<double> > &data1) {
     return data1;
+}
+
+const std::vector< std::vector<double> > Len_fdct_usfft_denoise::LenTest_fdct_usfft_denoise_v2(int N1, int N2, int nbscales, int nbangles_coarse, int allcurvelets, const std::vector< std::vector<double> > &X1) {
+
+    fdct_usfft_ns::CpxNumMat MatX1;
+    LenTransform_Pylist_2_CpxNumMat();
+    std::vector< std::vector<CpxNumMat> > X1_return;
+    fdct_usfft_ns::fdct_usfft(N1, N2, nbscales, nbangles_coarse, allcurvelets, MatX1, X1_return);
+    return X1_return;
+}
+
+inline void LenTransform_Pylist_2_CpxNumMat(const mxArray *&md, CpxNumMat &cd){
+    int m = md.size(); //矩阵的行
+    int n = md[0].size(); //矩阵的列
 }
