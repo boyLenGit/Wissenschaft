@@ -6,6 +6,28 @@
 
 #IncludeRegexTransform: 
 
+D:/boyLen/C++/Test01_helloC++/LenTest/matlab_curvlet_testmex2cpp/matrix.h
+stdlib.h
+-
+stddef.h
+-
+tmwtypes.h
+D:/boyLen/C++/Test01_helloC++/LenTest/matlab_curvlet_testmex2cpp/tmwtypes.h
+assert.h
+-
+
+D:/boyLen/C++/Test01_helloC++/LenTest/matlab_curvlet_testmex2cpp/tmwtypes.h
+mwstdint.h
+D:/boyLen/C++/Test01_helloC++/LenTest/matlab_curvlet_testmex2cpp/mwstdint.h
+limits.h
+-
+stdbool.h
+-
+float.h
+-
+stddef.h
+-
+
 D:/boyLen/C++/Test01_helloC++/LenTestFunc.h
 string
 -
@@ -101,4 +123,6 @@ vector
 D:/boyLen/C++/Test01_helloC++/vector
 LenTestFunc.h
 D:/boyLen/C++/Test01_helloC++/LenTestFunc.h
+LenTest/matlab_curvlet_testmex2cpp/matrix.h
+D:/boyLen/C++/Test01_helloC++/LenTest/matlab_curvlet_testmex2cpp/matrix.h
 
