@@ -15,7 +15,11 @@ function [wl,wr] = fdct_wrapping_window(x)
 
 wr = zeros(size(x));
 wl = zeros(size(x));
+disp('fdct_wrapping_window');
+disp(x);
 x(abs(x) < 2^-52) = 0;
+disp(x);
+x{909090990};
 wr((x > 0) & (x < 1)) = exp(1-1./(1-exp(1-1./x((x > 0) & (x < 1)))));
 wr(x <= 0) = 1;
 wl((x > 0) & (x < 1)) = exp(1-1./(1-exp(1-1./(1-x((x > 0) & (x < 1))))));

@@ -59,6 +59,9 @@ disp(nbangles(nbscales));
 
 if finest == 2, nbangles(nbscales) = 1; end;
 C = cell(1,nbscales);
+disp('C');
+disp(C);
+disp(cell(1,nbangles(j)));
 for j = 1:nbscales
     C{j} = cell(1,nbangles(j));
 end;
@@ -66,7 +69,6 @@ end;
 % Loop: pyramidal scale decomposition
 M1 = N1/3;
 M2 = N2/3;
-% finest = 2
 if finest == 1,
 
     % Initialization: smooth periodic extension of high frequencies
