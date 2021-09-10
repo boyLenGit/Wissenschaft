@@ -7,7 +7,7 @@ coord_1 = 0:(1/84):1;
 img = double(imread('Lena.jpg'));
 n = size(img,1);
 sigma = 20;        
-is_real = 1;
+is_real = 1; 
 
 noisy_img = img + sigma*randn(n);
 
