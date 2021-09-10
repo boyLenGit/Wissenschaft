@@ -104,8 +104,6 @@ else
     coord_2 = 0:(1/window_length_2):1;
     [wl_1,wr_1] = fdct_wrapping_window(coord_1);
     [wl_2,wr_2] = fdct_wrapping_window(coord_2);
-    disp('wr_1 boyLen');
-    disp(wr_1);
     lowpass_1 = [wl_1, ones(1,2*floor(M1)+1), wr_1];
     lowpass_2 = [wl_2, ones(1,2*floor(M2)+1), wr_2];
     lowpass = lowpass_1'*lowpass_2;
@@ -113,6 +111,12 @@ else
     Xlow_index_1 = ((-floor(2*M1)):floor(2*M1)) + ceil((N1+1)/2);
     Xlow_index_2 = ((-floor(2*M2)):floor(2*M2)) + ceil((N2+1)/2);
     Xlow = X(Xlow_index_1, Xlow_index_2) .* lowpass;
+    disp('Xlow boyLen');
+    disp(size(X(Xlow_index_1, Xlow_index_2)));
+    disp(size(X));
+    disp(size(lowpass));
+    disp(Xlow_index_1);
+    X{123123123}
     Xhi = X;
     Xhi(Xlow_index_1, Xlow_index_2) = Xhi(Xlow_index_1, Xlow_index_2) .* hipass;
     C{nbscales}{1} = fftshift(ifft2(ifftshift(Xhi)))*sqrt(prod(size(Xhi)));
