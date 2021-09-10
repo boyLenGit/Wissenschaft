@@ -1,7 +1,7 @@
 % fdct_wrapping_demo_denoise.m -- Image denoising using Curvelets
 clc;
 % LenTest
-coord_1 = 0:(1/84):1;
+
 % LenTest
 
 img = double(imread('Lena.jpg'));
