@@ -104,8 +104,8 @@ else
     coord_2 = 0:(1/window_length_2):1;
     [wl_1,wr_1] = fdct_wrapping_window(coord_1);
     [wl_2,wr_2] = fdct_wrapping_window(coord_2);
-    disp('wl_1 boyLen');
-    disp(wl_1);
+    disp('wr_1 boyLen');
+    disp(wr_1);
     lowpass_1 = [wl_1, ones(1,2*floor(M1)+1), wr_1];
     lowpass_2 = [wl_2, ones(1,2*floor(M2)+1), wr_2];
     lowpass = lowpass_1'*lowpass_2;
