@@ -167,13 +167,14 @@ for j = scales,
         slope_wedge = (floor(4*M_horiz) + 1 - wedge_endpoints(1))/floor(4*M_vert);
         left_line = round(2 - wedge_endpoints(1) + slope_wedge*(Y_corner - 1));
         % integers
-        [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_corner_wedge,width_wedge));  % length_corner_wedge=18, width_wedge=22
-                disp('Len Func');
-        disp(size(wrapped_data));
+        [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_corner_wedge,width_wedge));  % Len:length_corner_wedge=18, width_wedge=22
         first_row = floor(4*M_vert)+2-ceil((length_corner_wedge+1)/2)+...
             mod(length_corner_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
         first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2)+...
             mod(width_wedge+1,2)*(quadrant-3 == mod(quadrant-3,2));
+        
+                disp('Len Func');
+        disp(first_col);
         % Coordinates of the top-left corner of the wedge wrapped
         % around the origin. Some subtleties when the wedge is
         % even-sized because of the forthcoming 90 degrees rotation
