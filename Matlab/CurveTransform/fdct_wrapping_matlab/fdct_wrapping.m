@@ -144,19 +144,20 @@ for j = scales,
     for quadrant = 1:nbquadrants
         M_horiz = M2 * (mod(quadrant,2)==1) + M1 * (mod(quadrant,2)==0);
         M_vert = M1 * (mod(quadrant,2)==1) + M2 * (mod(quadrant,2)==0);
-        disp('Len Func');
-        disp(M_vert);
         if mod(nbangles_perquad,2),
             wedge_ticks_left = round((0:(1/(2*nbangles_perquad)):.5)*2*floor(4*M_horiz) + 1);
             wedge_ticks_right = 2*floor(4*M_horiz) + 2 - wedge_ticks_left;
             wedge_ticks = [wedge_ticks_left, wedge_ticks_right(end:-1:1)];
         else
-            wedge_ticks_left = round((0:(1/(2*nbangles_perquad)):.5)*2*floor(4*M_horiz) + 1);
+            wedge_ticks_left = round( (0:(1/(2*nbangles_perquad)):.5)*2*floor(4*M_horiz) + 1 );
             wedge_ticks_right = 2*floor(4*M_horiz) + 2 - wedge_ticks_left;
             wedge_ticks = [wedge_ticks_left, wedge_ticks_right((end-1):-1:1)];
         end;
         wedge_endpoints = wedge_ticks(2:2:(end-1));         % integers
         wedge_midpoints = (wedge_endpoints(1:(end-1)) + wedge_endpoints(2:end))/2;
+        disp('Len Func');
+        disp(wedge_ticks);
+        disp(wedge_endpoints);
         % integers or half-integers
         
         % Left corner wedge
