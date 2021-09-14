@@ -165,11 +165,11 @@ for j = scales,
         [XX,YY] = meshgrid(1:(2*floor(4*M_horiz)+1),Y_corner);
         width_wedge = wedge_endpoints(2) + wedge_endpoints(1) - 1;
         slope_wedge = (floor(4*M_horiz) + 1 - wedge_endpoints(1))/floor(4*M_vert);
-        disp('Len Func');
-        disp(slope_wedge);
         left_line = round(2 - wedge_endpoints(1) + slope_wedge*(Y_corner - 1));
         % integers
-        [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_corner_wedge,width_wedge));
+        [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_corner_wedge,width_wedge));  % length_corner_wedge=18, width_wedge=22
+                disp('Len Func');
+        disp(size(wrapped_data));
         first_row = floor(4*M_vert)+2-ceil((length_corner_wedge+1)/2)+...
             mod(length_corner_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
         first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2)+...
