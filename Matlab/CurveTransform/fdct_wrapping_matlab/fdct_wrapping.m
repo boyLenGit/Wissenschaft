@@ -155,9 +155,6 @@ for j = scales,
         end;
         wedge_endpoints = wedge_ticks(2:2:(end-1));         % integers
         wedge_midpoints = (wedge_endpoints(1:(end-1)) + wedge_endpoints(2:end))/2;
-        disp('Len Func');
-        disp(wedge_ticks);
-        disp(wedge_endpoints);
         % integers or half-integers
         
         % Left corner wedge
@@ -168,6 +165,8 @@ for j = scales,
         [XX,YY] = meshgrid(1:(2*floor(4*M_horiz)+1),Y_corner);
         width_wedge = wedge_endpoints(2) + wedge_endpoints(1) - 1;
         slope_wedge = (floor(4*M_horiz) + 1 - wedge_endpoints(1))/floor(4*M_vert);
+        disp('Len Func');
+        disp(slope_wedge);
         left_line = round(2 - wedge_endpoints(1) + slope_wedge*(Y_corner - 1));
         % integers
         [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_corner_wedge,width_wedge));
