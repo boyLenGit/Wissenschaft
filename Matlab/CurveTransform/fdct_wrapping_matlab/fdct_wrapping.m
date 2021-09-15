@@ -136,7 +136,6 @@ for j = scales,
     Xlow = Xlow(Xlow_index_1, Xlow_index_2);
     Xhi(Xlow_index_1, Xlow_index_2) = Xlow .* hipass;
     Xlow = Xlow .* lowpass;     % size is 2*floor(2*M1)+1 - by - 2*floor(2*M2)+1
-    LenTV = Xlow;
     % Loop: angular decomposition
     l = 0;
     nbquadrants = 2 + 2*(~is_real);
@@ -187,6 +186,7 @@ for j = scales,
 %             disp('Len Func');
 %             disp(row);
         end;
+        LenTV = wrapped_data;
         slope_wedge_right = (floor(4*M_horiz)+1 - wedge_midpoints(1))/floor(4*M_vert);
         mid_line_right = wedge_midpoints(1) + slope_wedge_right*(wrapped_YY - 1);
         % not integers in general
