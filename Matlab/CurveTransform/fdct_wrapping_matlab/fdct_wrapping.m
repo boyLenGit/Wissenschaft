@@ -172,12 +172,11 @@ for j = scales,
             mod(length_corner_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
         first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2)+...
             mod(width_wedge+1,2)*(quadrant-3 == mod(quadrant-3,2));
-        
-                disp('Len Func');
-        disp(first_col);
         % Coordinates of the top-left corner of the wedge wrapped
         % around the origin. Some subtleties when the wedge is
         % even-sized because of the forthcoming 90 degrees rotation
+        disp('Len Func  Xhi');
+        disp(Xhi);
         for row = Y_corner
             cols = left_line(row) + mod((0:(width_wedge-1))-(left_line(row)-first_col),width_wedge);
             admissible_cols = round(1/2*(cols+1+abs(cols-1)));
@@ -185,6 +184,8 @@ for j = scales,
             wrapped_data(new_row,:) = Xhi(row,admissible_cols) .* (cols > 0);
             wrapped_XX(new_row,:) = XX(row,admissible_cols);
             wrapped_YY(new_row,:) = YY(row,admissible_cols);
+%             disp('Len Func');
+%             disp(row);
         end;
         slope_wedge_right = (floor(4*M_horiz)+1 - wedge_midpoints(1))/floor(4*M_vert);
         mid_line_right = wedge_midpoints(1) + slope_wedge_right*(wrapped_YY - 1);
