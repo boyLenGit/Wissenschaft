@@ -174,19 +174,14 @@ for j = scales,
         % Coordinates of the top-left corner of the wedge wrapped
         % around the origin. Some subtleties when the wedge is
         % even-sized because of the forthcoming 90 degrees rotation
-        disp('Len Func  Xhi');
-        disp(Xhi);
         for row = Y_corner
             cols = left_line(row) + mod((0:(width_wedge-1))-(left_line(row)-first_col),width_wedge);
             admissible_cols = round(1/2*(cols+1+abs(cols-1)));
             new_row = 1 + mod(row - first_row, length_corner_wedge);
-            wrapped_data(new_row,:) = Xhi(row,admissible_cols) .* (cols > 0);
+            wrapped_data(new_row,:) = Xhi(row,admissible_cols) .* (cols > 0);           
             wrapped_XX(new_row,:) = XX(row,admissible_cols);
             wrapped_YY(new_row,:) = YY(row,admissible_cols);
-%             disp('Len Func');
-%             disp(row);
         end;
-        LenTV = wrapped_data;
         slope_wedge_right = (floor(4*M_horiz)+1 - wedge_midpoints(1))/floor(4*M_vert);
         mid_line_right = wedge_midpoints(1) + slope_wedge_right*(wrapped_YY - 1);
         % not integers in general
@@ -194,12 +189,12 @@ for j = scales,
             (wrapped_XX - mid_line_right)./(floor(4*M_vert)+1 - wrapped_YY);
         C2 = 1/(1/(2*(floor(4*M_horiz))/(wedge_endpoints(1) - 1) - 1) + 1/(2*(floor(4*M_vert))/(first_wedge_endpoint_vert - 1) - 1));
         C1 = C2 / (2*(floor(4*M_vert))/(first_wedge_endpoint_vert - 1) - 1);
-        wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) = ...
-            wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) + 1;
-        coord_corner = C1 + C2 * ((wrapped_XX - 1)/(floor(4*M_horiz)) - (wrapped_YY - 1)/(floor(4*M_vert))) ./ ...
-            (2-((wrapped_XX - 1)/(floor(4*M_horiz)) + (wrapped_YY - 1)/(floor(4*M_vert))));
-        wl_left = fdct_wrapping_window(coord_corner);
-        [wl_right,wr_right] = fdct_wrapping_window(coord_right);
+        
+        wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) = wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) + 1;
+        coord_corner = C1 + C2 * ((wrapped_XX - 1)/(floor(4*M_horiz)) - (wrapped_YY - 1)/(floor(4*M_vert))) ./ (2-((wrapped_XX - 1)/(floor(4*M_horiz)) + (wrapped_YY - 1)/(floor(4*M_vert))));
+        wl_left = Lenfdct_wrapping_window2(coord_corner);
+        [wl_right,wr_right] = Lenfdct_wrapping_window2(coord_right);
+        LenTV = wl_left;
         wrapped_data = wrapped_data .* (wl_left .* wr_right);
         
         switch is_real
