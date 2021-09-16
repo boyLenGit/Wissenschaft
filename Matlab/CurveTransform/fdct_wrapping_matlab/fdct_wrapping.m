@@ -194,9 +194,7 @@ for j = scales,
         coord_corner = C1 + C2 * ((wrapped_XX - 1)/(floor(4*M_horiz)) - (wrapped_YY - 1)/(floor(4*M_vert))) ./ (2-((wrapped_XX - 1)/(floor(4*M_horiz)) + (wrapped_YY - 1)/(floor(4*M_vert))));
         wl_left = Lenfdct_wrapping_window2(coord_corner);
         [wl_right,wr_right] = Lenfdct_wrapping_window2(coord_right);
-        LenTV = wl_left;
         wrapped_data = wrapped_data .* (wl_left .* wr_right);
-        
         switch is_real
             case 0
                 wrapped_data = rot90(wrapped_data,-(quadrant-1));
@@ -207,20 +205,18 @@ for j = scales,
                 C{j}{l} = sqrt(2)*real(x);
                 C{j}{l+nbangles(j)/2} = sqrt(2)*imag(x);
         end;
-        
+        LenTV = C;
         % Regular wedges
         length_wedge = floor(4*M_vert) - floor(M_vert);
         Y = 1:length_wedge;
-        first_row = floor(4*M_vert)+2-ceil((length_wedge+1)/2)+...
-            mod(length_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
+        first_row = floor(4*M_vert)+2-ceil((length_wedge+1)/2) + mod(length_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
         for subl = 2:(nbangles_perquad-1);
             l = l+1;
             width_wedge = wedge_endpoints(subl+1) - wedge_endpoints(subl-1) + 1;
             slope_wedge = ((floor(4*M_horiz)+1) - wedge_endpoints(subl))/floor(4*M_vert);
             left_line = round(wedge_endpoints(subl-1) + slope_wedge*(Y - 1));
             [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_wedge,width_wedge));
-            first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2)+...
-                mod(width_wedge+1,2)*(quadrant-3 == mod(quadrant-3,2));
+            first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2) + mod(width_wedge+1,2)*(quadrant-3 == mod(quadrant-3,2));
             for row = Y
                 cols = left_line(row) + mod((0:(width_wedge-1))-(left_line(row)-first_col),width_wedge);
                 new_row = 1 + mod(row - first_row, length_wedge);
@@ -228,6 +224,8 @@ for j = scales,
                 wrapped_XX(new_row,:) = XX(row,cols);
                 wrapped_YY(new_row,:) = YY(row,cols);
             end;
+            disp('wrapped_data');
+            disp(wrapped_data);
             slope_wedge_left = ((floor(4*M_horiz)+1) - wedge_midpoints(subl-1))/floor(4*M_vert);
             mid_line_left = wedge_midpoints(subl-1) + slope_wedge_left*(wrapped_YY - 1);
             coord_left = 1/2 + floor(4*M_vert)/(wedge_endpoints(subl) - wedge_endpoints(subl-1)) * ...

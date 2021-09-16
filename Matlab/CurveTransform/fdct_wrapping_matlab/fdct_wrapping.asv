@@ -136,7 +136,6 @@ for j = scales,
     Xlow = Xlow(Xlow_index_1, Xlow_index_2);
     Xhi(Xlow_index_1, Xlow_index_2) = Xlow .* hipass;
     Xlow = Xlow .* lowpass;     % size is 2*floor(2*M1)+1 - by - 2*floor(2*M2)+1
-    LenTV = Xhi;
     % Loop: angular decomposition
     l = 0;
     nbquadrants = 2 + 2*(~is_real);
@@ -183,7 +182,6 @@ for j = scales,
             wrapped_XX(new_row,:) = XX(row,admissible_cols);
             wrapped_YY(new_row,:) = YY(row,admissible_cols);
         end;
-        
         slope_wedge_right = (floor(4*M_horiz)+1 - wedge_midpoints(1))/floor(4*M_vert);
         mid_line_right = wedge_midpoints(1) + slope_wedge_right*(wrapped_YY - 1);
         % not integers in general
@@ -191,14 +189,12 @@ for j = scales,
             (wrapped_XX - mid_line_right)./(floor(4*M_vert)+1 - wrapped_YY);
         C2 = 1/(1/(2*(floor(4*M_horiz))/(wedge_endpoints(1) - 1) - 1) + 1/(2*(floor(4*M_vert))/(first_wedge_endpoint_vert - 1) - 1));
         C1 = C2 / (2*(floor(4*M_vert))/(first_wedge_endpoint_vert - 1) - 1);
-        wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) = ...
-            wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) + 1;
-        coord_corner = C1 + C2 * ((wrapped_XX - 1)/(floor(4*M_horiz)) - (wrapped_YY - 1)/(floor(4*M_vert))) ./ ...
-            (2-((wrapped_XX - 1)/(floor(4*M_horiz)) + (wrapped_YY - 1)/(floor(4*M_vert))));
-        wl_left = fdct_wrapping_window(coord_corner);
-        [wl_right,wr_right] = fdct_wrapping_window(coord_right);
-        wrapped_data = wrapped_data .* (wl_left .* wr_right);
         
+        wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) = wrapped_XX((wrapped_XX - 1)/floor(4*M_horiz) + (wrapped_YY-1)/floor(4*M_vert) == 2) + 1;
+        coord_corner = C1 + C2 * ((wrapped_XX - 1)/(floor(4*M_horiz)) - (wrapped_YY - 1)/(floor(4*M_vert))) ./ (2-((wrapped_XX - 1)/(floor(4*M_horiz)) + (wrapped_YY - 1)/(floor(4*M_vert))));
+        wl_left = Lenfdct_wrapping_window2(coord_corner);
+        [wl_right,wr_right] = Lenfdct_wrapping_window2(coord_right);
+        wrapped_data = wrapped_data .* (wl_left .* wr_right);
         switch is_real
             case 0
                 wrapped_data = rot90(wrapped_data,-(quadrant-1));
@@ -209,20 +205,20 @@ for j = scales,
                 C{j}{l} = sqrt(2)*real(x);
                 C{j}{l+nbangles(j)/2} = sqrt(2)*imag(x);
         end;
-        
+        LenTV = C;
         % Regular wedges
         length_wedge = floor(4*M_vert) - floor(M_vert);
         Y = 1:length_wedge;
-        first_row = floor(4*M_vert)+2-ceil((length_wedge+1)/2)+...
-            mod(length_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
+        first_row = floor(4*M_vert)+2-ceil((length_wedge+1)/2) + mod(length_wedge+1,2)*(quadrant-2 == mod(quadrant-2,2));
         for subl = 2:(nbangles_perquad-1);
             l = l+1;
             width_wedge = wedge_endpoints(subl+1) - wedge_endpoints(subl-1) + 1;
             slope_wedge = ((floor(4*M_horiz)+1) - wedge_endpoints(subl))/floor(4*M_vert);
             left_line = round(wedge_endpoints(subl-1) + slope_wedge*(Y - 1));
             [wrapped_data, wrapped_XX, wrapped_YY] = deal(zeros(length_wedge,width_wedge));
-            first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2)+...
-                mod(width_wedge+1,2)*(quadrant-3 == mod(quadrant-3,2));
+            first_col = floor(4*M_horiz)+2-ceil((width_wedge+1)/2) + mod(width_wedge+1,2)*(quadrant-3 == mod(quadrant-3,2));
+            disp('first_row');
+            disp(first_row);
             for row = Y
                 cols = left_line(row) + mod((0:(width_wedge-1))-(left_line(row)-first_col),width_wedge);
                 new_row = 1 + mod(row - first_row, length_wedge);
