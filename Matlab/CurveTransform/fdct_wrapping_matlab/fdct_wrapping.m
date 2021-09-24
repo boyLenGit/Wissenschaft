@@ -233,8 +233,6 @@ for j = scales,
             wl_left = fdct_wrapping_window(coord_left);
             [wl_right,wr_right] = fdct_wrapping_window(coord_right);
             wrapped_data = wrapped_data .* (wl_left .* wr_right);
-            disp('wrapped_data');
-            disp(wrapped_data);
             switch is_real
                 case 0
                     wrapped_data = rot90(wrapped_data,-(quadrant-1));
