@@ -81,6 +81,8 @@ else
 end;
 
 % Loop: pyramidal reconstruction
+disp(scales)
+is_real(10);
 
 Xj_topleft_1 = 1;
 Xj_topleft_2 = 1;
