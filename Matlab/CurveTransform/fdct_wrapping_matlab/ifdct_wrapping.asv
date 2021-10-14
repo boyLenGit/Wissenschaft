@@ -40,7 +40,7 @@ if finest == 1;
     bigN1 = 2*floor(2*M1)+1;
     bigN2 = 2*floor(2*M2)+1;
     X = zeros(bigN1,bigN2);
-
+    
     % Initialization: preparing the lowpass filter at finest scale
     window_length_1 = floor(2*M1) - floor(M1) - 1 - (mod(N1,3)==0);
     window_length_2 = floor(2*M2) - floor(M2) - 1 - (mod(N2,3)==0);
@@ -53,11 +53,11 @@ if finest == 1;
     lowpass_2 = [wl_2, ones(1,2*floor(M2)+1), wr_2];
     if mod(N2,3)==0, lowpass_2 = [0, lowpass_2, 0]; end;
     lowpass = lowpass_1'*lowpass_2;
-
+    
     scales = nbscales:-1:2;
-   
+    
 else
-
+    
     M1 = M1/2;
     M2 = M2/2;
     
@@ -81,13 +81,11 @@ else
 end;
 
 % Loop: pyramidal reconstruction
-disp(scales)
-is_real(10);
 
 Xj_topleft_1 = 1;
 Xj_topleft_2 = 1;
 for j = scales,
-
+    
     M1 = M1/2;
     M2 = M2/2;
     window_length_1 = floor(2*M1) - floor(M1) - 1;
@@ -106,7 +104,7 @@ for j = scales,
     l = 0;
     nbquadrants = 2 + 2*(~is_real);
     nbangles_perquad = nbangles(j)/4;
-    for quadrant = 1:nbquadrants 
+    for quadrant = 1:nbquadrants
         M_horiz = M2 * (mod(quadrant,2)==1) + M1 * (mod(quadrant,2)==0);
         M_vert = M1 * (mod(quadrant,2)==1) + M2 * (mod(quadrant,2)==0);
         if mod(nbangles_perquad,2),
@@ -143,11 +141,11 @@ for j = scales,
             wrapped_XX(new_row,:) = XX(row,admissible_cols);
             wrapped_YY(new_row,:) = YY(row,admissible_cols);
         end;
-
+        
         slope_wedge_right = (floor(4*M_horiz)+1 - wedge_midpoints(1))/floor(4*M_vert);
         mid_line_right = wedge_midpoints(1) + slope_wedge_right*(wrapped_YY - 1);
-                                                            % not integers
-                                                            % in general
+        % not integers
+        % in general
         coord_right = 1/2 + floor(4*M_vert)/(wedge_endpoints(2) - wedge_endpoints(1)) * ...
             (wrapped_XX - mid_line_right)./(floor(4*M_vert)+1 - wrapped_YY);
         C2 = 1/(1/(2*(floor(4*M_horiz))/(wedge_endpoints(1) - 1) - 1) + 1/(2*(floor(4*M_vert))/(first_wedge_endpoint_vert - 1) - 1));
@@ -159,29 +157,29 @@ for j = scales,
         wl_left = fdct_wrapping_window(coord_corner);
         [wl_right,wr_right] = fdct_wrapping_window(coord_right);
         switch is_real
-         case 0
-          wrapped_data = fftshift(fft2(ifftshift(C{j}{l})))/sqrt(prod(size(C{j}{l})));
-          wrapped_data = rot90(wrapped_data,(quadrant-1));
-         case 1
-          x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
-          wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
-          wrapped_data = rot90(wrapped_data,(quadrant-1));
+            case 0
+                wrapped_data = fftshift(fft2(ifftshift(C{j}{l})))/sqrt(prod(size(C{j}{l})));
+                wrapped_data = rot90(wrapped_data,(quadrant-1));
+            case 1
+                x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
+                wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
+                wrapped_data = rot90(wrapped_data,(quadrant-1));
         end;
         wrapped_data = wrapped_data .* (wl_left .* wr_right);
- 
+        
         % Unwrapping data
         for row = Y_corner
             cols = left_line(row) + mod((0:(width_wedge-1))-(left_line(row)-first_col),width_wedge);
             admissible_cols = round(1/2*(cols+1+abs(cols-1)));
             new_row = 1 + mod(row - first_row, length_corner_wedge);
             Xj(row,admissible_cols) = Xj(row,admissible_cols) + wrapped_data(new_row,:);
-                                % We use the following property: in an assignment
-                                % A(B) = C where B and C are vectors, if
-                                % some value x repeats in B, then the
-                                % last occurrence of x is the one
-                                % corresponding to the eventual assignment.
+            % We use the following property: in an assignment
+            % A(B) = C where B and C are vectors, if
+            % some value x repeats in B, then the
+            % last occurrence of x is the one
+            % corresponding to the eventual assignment.
         end;
-
+        
         % Regular wedges
         length_wedge = floor(4*M_vert) - floor(M_vert);
         Y = 1:length_wedge;
@@ -212,13 +210,13 @@ for j = scales,
             wl_left = fdct_wrapping_window(coord_left);
             [wl_right,wr_right] = fdct_wrapping_window(coord_right);
             switch is_real
-             case 0
-              wrapped_data = fftshift(fft2(ifftshift(C{j}{l})))/sqrt(prod(size(C{j}{l})));
-              wrapped_data = rot90(wrapped_data,(quadrant-1));
-             case 1
-              x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
-              wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
-              wrapped_data = rot90(wrapped_data,(quadrant-1));
+                case 0
+                    wrapped_data = fftshift(fft2(ifftshift(C{j}{l})))/sqrt(prod(size(C{j}{l})));
+                    wrapped_data = rot90(wrapped_data,(quadrant-1));
+                case 1
+                    x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
+                    wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
+                    wrapped_data = rot90(wrapped_data,(quadrant-1));
             end;
             wrapped_data = wrapped_data .* (wl_left .* wr_right);
             
@@ -228,7 +226,7 @@ for j = scales,
                 new_row = 1 + mod(row - first_row, length_wedge);
                 Xj(row,cols) = Xj(row,cols) + wrapped_data(new_row,:);
             end;
-
+            
         end;    % for subl
         
         % Right corner wedge
@@ -247,7 +245,7 @@ for j = scales,
             admissible_cols = round(1/2*(cols+2*floor(4*M_horiz)+1-abs(cols-(2*floor(4*M_horiz)+1))));
             new_row = 1 + mod(row - first_row, length_corner_wedge);
             wrapped_XX(new_row,:) = XX(row,admissible_cols);
-            wrapped_YY(new_row,:) = YY(row,admissible_cols);        
+            wrapped_YY(new_row,:) = YY(row,admissible_cols);
         end;
         YY = Y_corner'*ones(1,width_wedge);
         slope_wedge_left = ((floor(4*M_horiz)+1) - wedge_midpoints(end))/floor(4*M_vert);
@@ -263,29 +261,29 @@ for j = scales,
         wl_left = fdct_wrapping_window(coord_left);
         [wl_right,wr_right] = fdct_wrapping_window(coord_corner);
         switch is_real
-         case 0
-          wrapped_data = fftshift(fft2(ifftshift(C{j}{l})))/sqrt(prod(size(C{j}{l})));
-          wrapped_data = rot90(wrapped_data,(quadrant-1));
-         case 1
-          x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
-          wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
-          wrapped_data = rot90(wrapped_data,(quadrant-1));
+            case 0
+                wrapped_data = fftshift(fft2(ifftshift(C{j}{l})))/sqrt(prod(size(C{j}{l})));
+                wrapped_data = rot90(wrapped_data,(quadrant-1));
+            case 1
+                x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
+                wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
+                wrapped_data = rot90(wrapped_data,(quadrant-1));
         end;
         wrapped_data = wrapped_data .* (wl_left .* wr_right);
         
-         % Unwrapping data
+        % Unwrapping data
         for row = Y_corner
             cols = left_line(row) + mod((0:(width_wedge-1))-(left_line(row)-first_col),width_wedge);
             admissible_cols = round(1/2*(cols+2*floor(4*M_horiz)+1-abs(cols-(2*floor(4*M_horiz)+1))));
             new_row = 1 + mod(row - first_row, length_corner_wedge);
             Xj(row,fliplr(admissible_cols)) = Xj(row,fliplr(admissible_cols)) + wrapped_data(new_row,end:-1:1);
-                                % We use the following property: in an assignment
-                                % A(B) = C where B and C are vectors, if
-                                % some value x repeats in B, then the
-                                % last occurrence of x is the one
-                                % corresponding to the eventual assignment.
+            % We use the following property: in an assignment
+            % A(B) = C where B and C are vectors, if
+            % some value x repeats in B, then the
+            % last occurrence of x is the one
+            % corresponding to the eventual assignment.
         end;
-
+        
         Xj = rot90(Xj);
         
     end;    % for quadrant
@@ -298,7 +296,7 @@ for j = scales,
     loc_1 = Xj_topleft_1 + (0:(2*floor(4*M1)));
     loc_2 = Xj_topleft_2 + (0:(2*floor(4*M2)));
     X(loc_1,loc_2) = X(loc_1,loc_2) + Xj;
-
+    
     % Preparing for loop reentry or exit
     
     Xj_topleft_1 = Xj_topleft_1 + floor(4*M1) - floor(2*M1);
@@ -313,7 +311,7 @@ if is_real
     X = rot90(X,2);
     X = X + conj(Y);
 end
-    
+
 % Coarsest wavelet level
 M1 = M1/2;
 M2 = M2/2;
@@ -326,7 +324,7 @@ X(loc_1,loc_2) = X(loc_1,loc_2) + Xj .* lowpass;
 M1 = N1/3;
 M2 = N2/3;
 if finest == 1,
-
+    
     % Folding back onto N1-by-N2 matrix
     shift_1 = floor(2*M1)-floor(N1/2);
     shift_2 = floor(2*M2)-floor(N2/2);
