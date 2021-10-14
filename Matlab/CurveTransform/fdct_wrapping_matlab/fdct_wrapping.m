@@ -281,7 +281,6 @@ for j = scales,
             case 0
                 wrapped_data = rot90(wrapped_data,-(quadrant-1));
                 C{j}{l} = fftshift(ifft2(ifftshift(wrapped_data)))*sqrt(prod(size(wrapped_data)));
-                disp([j,l]);
             case 1
                 wrapped_data = rot90(wrapped_data,-(quadrant-1));
                 x = fftshift(ifft2(ifftshift(wrapped_data)))*sqrt(prod(size(wrapped_data)));
