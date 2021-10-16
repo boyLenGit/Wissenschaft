@@ -164,7 +164,7 @@ for j = scales,
                 x = C{j}{l} + sqrt(-1)*C{j}{l+nbangles(j)/2};
                 %Len
                 wrapped_data1 = ifftshift(x);
-                wrapped_data2 = sqrt(prod(size(x)))/sqrt(2);
+                wrapped_data2 = fft2(ifftshift(x));
                 %Len
                 wrapped_data = fftshift(fft2(ifftshift(x)))/sqrt(prod(size(x)))/sqrt(2);
                 wrapped_data = rot90(wrapped_data,(quadrant-1));
