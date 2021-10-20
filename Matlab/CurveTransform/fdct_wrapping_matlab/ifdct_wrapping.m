@@ -177,7 +177,6 @@ for j = scales,
             admissible_cols = round(1/2*(cols+1+abs(cols-1)));
             new_row = 1 + mod(row - first_row, length_corner_wedge);
             Xj(row,admissible_cols) = Xj(row,admissible_cols) + wrapped_data(new_row,:);
-            disp();
             % We use the following property: in an assignment
             % A(B) = C where B and C are vectors, if
             % some value x repeats in B, then the

@@ -1,4 +1,4 @@
-function restored_RawData = Len_ifdct_wrapping_slience(segy_data, len_param)
+function restored_RawData = Len_fdct_wrapping_slience(segy_data, len_param)
 % disp('LenCurve Matlab launched.');
 % 
 
